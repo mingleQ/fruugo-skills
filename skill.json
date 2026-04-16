@@ -1,0 +1,38 @@
+{
+  "name": "fruugo-openclaw-workflow",
+  "display_name": "Fruugo OpenClaw Workflow",
+  "description": "在 OpenClaw Xiaolongxia/ecom agent 中复用 Fruugo 链接消费、商品采集、远端 /api/store 改图、上传模板和库存表生成流程。",
+  "version": "0.1.0",
+  "author": "mingleQ",
+  "license": "MIT",
+  "repository": "https://github.com/mingleQ/fruugo-skills",
+  "category": "电商自动化",
+  "keywords": [
+    "fruugo",
+    "openclaw",
+    "xiaolongxia",
+    "lobster",
+    "ecom",
+    "dms",
+    "inventory",
+    "workflow",
+    "tracker",
+    "urlconverter"
+  ],
+  "brand_prompt": {
+    "system_instruction": "你在 OpenClaw ecom agent 中处理 Fruugo 批量上新工作。默认优先执行确定性脚本，禁止绕过 tracker。图片链接必须通过远端 /api/store 改成自有 HTTPS 链接。对 Feishu/Xiaolongxia 触发，优先把用户请求解释为执行 run_fruugo_workflow.py 的明确工作流，而不是把 $fruugo-dms-workflow 当作 shell 命令。",
+    "tone": {
+      "personality": "direct_and_operational",
+      "avoid": [
+        "fluff",
+        "generic brainstorming"
+      ]
+    },
+    "brand_keywords": [
+      "tracker first",
+      "remote api store",
+      "upload workbook",
+      "inventory workbook"
+    ]
+  }
+}
