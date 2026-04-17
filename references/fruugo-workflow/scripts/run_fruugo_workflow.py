@@ -70,6 +70,18 @@ def parse_args() -> argparse.Namespace:
         help="Products per page when bootstrapping a fresh tracker.",
     )
     parser.add_argument(
+        "--bootstrap-limit-categories",
+        type=int,
+        default=2,
+        help="How many categories to crawl when bootstrapping a fresh tracker.",
+    )
+    parser.add_argument(
+        "--bootstrap-wait-ms",
+        type=int,
+        default=1000,
+        help="Extra wait in milliseconds after each bootstrap category page load.",
+    )
+    parser.add_argument(
         "--skip-bootstrap",
         action="store_true",
         help="Skip category crawl bootstrap even if the tracker DB is empty.",
@@ -140,6 +152,10 @@ def bootstrap_tracker(args: argparse.Namespace, output_dir: Path) -> None:
         str(args.bootstrap_pages),
         "--page-size",
         str(args.bootstrap_page_size),
+        "--limit",
+        str(args.bootstrap_limit_categories),
+        "--wait-ms",
+        str(args.bootstrap_wait_ms),
     ]
     import_cmd = [
         sys.executable,
