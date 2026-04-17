@@ -11,11 +11,16 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Install the Fruugo workflow prompt block into an OpenClaw ecom workspace."
     )
-    parser.add_argument("--repo-root", required=True, help="Absolute Fruugo repo root on the target machine.")
-    parser.add_argument("--db", required=True, help="Tracker SQLite DB path.")
-    parser.add_argument("--template", required=True, help="Fruugo workbook template path.")
-    parser.add_argument("--public-base", required=True, help="Public HTTPS base for stored images.")
-    parser.add_argument("--store-api", required=True, help="Remote urlconverter /api/store endpoint.")
+    parser.add_argument(
+        "--public-base",
+        default="https://img.urlconverterecommerce.online",
+        help="Public HTTPS base for stored images.",
+    )
+    parser.add_argument(
+        "--store-api",
+        default="https://img.urlconverterecommerce.online/api/store",
+        help="Remote urlconverter /api/store endpoint.",
+    )
     parser.add_argument(
         "--openclaw-workspace",
         default=str(Path.home() / ".openclaw" / "workspaces" / "ecom"),
@@ -42,13 +47,14 @@ def replace_managed_section(original: str, new_section: str) -> str:
 def render_section(args: argparse.Namespace) -> str:
     skill_root = Path(__file__).resolve().parents[3]
     workflow_script = skill_root / "references" / "fruugo-workflow" / "scripts" / "run_fruugo_workflow.py"
+    default_db = skill_root / "runtime" / "fruugo_product_links.sqlite3"
+    default_template = skill_root / "assets" / "templates" / "Prod_1772601378_NEW_FRU_GBR_01_1772601383ZJW031204.xlsx"
     return f"""{SECTION_START}
 ## Fruugo 自动化工作流
 
 - 技能仓库根目录：`{skill_root}`
-- Fruugo 数据仓库根目录：`{Path(args.repo_root).resolve()}`
-- Tracker 数据库：`{Path(args.db).resolve()}`
-- 模板文件：`{Path(args.template).resolve()}`
+- Tracker 数据库：`{default_db}`
+- 模板文件：`{default_template}`
 - 图片公网前缀：`{args.public_base.rstrip('/')}`
 - 图片存储接口：`{args.store_api.rstrip('/')}`
 
@@ -56,13 +62,9 @@ def render_section(args: argparse.Namespace) -> str:
 
 ```bash
 python3 {workflow_script} \\
-  --db {Path(args.db).resolve()} \\
   --count 50 \\
-  --output-dir {Path(args.repo_root).resolve()}/0416/workflow_batch_50 \\
-  --template {Path(args.template).resolve()} \\
   --operator SHOU \\
   --shop 07 \\
-  --date-code 0416 \\
   --public-base {args.public_base.rstrip('/')} \\
   --store-api {args.store_api.rstrip('/')}
 ```

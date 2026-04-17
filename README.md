@@ -13,6 +13,13 @@
 - 生成 Fruugo 上传模板
 - 生成库存表
 
+这版已经收口成“新机器可直接启动”的模式：
+
+- 仓库自带默认模板
+- 仓库自带默认类目 CSV
+- 仓库自带默认 runtime 目录
+- 首次运行会自动初始化 tracker
+
 ## 适合谁用
 
 - 已经有 Fruugo 采集仓库的团队
@@ -27,6 +34,10 @@ fruugo-skills/
 ├── skill.json
 ├── requirements.txt
 ├── package.json
+├── assets/
+│   ├── categories/
+│   └── templates/
+├── runtime/
 ├── references/
 │   ├── fruugo-workflow/
 │   │   ├── SKILL.md
@@ -45,9 +56,6 @@ fruugo-skills/
 
 ```bash
 python3 references/openclaw-deploy/scripts/install_openclaw_fruugo_prompt.py \
-  --repo-root /abs/path/to/fruugo \
-  --db /abs/path/to/fruugo/0326/fruugo_product_links.sqlite3 \
-  --template /abs/path/to/fruugo/0313/Prod_1772601378_NEW_FRU_GBR_01_1772601383ZJW031204.xlsx \
   --public-base https://img.urlconverterecommerce.online \
   --store-api https://img.urlconverterecommerce.online/api/store \
   --openclaw-workspace ~/.openclaw/workspaces/ecom
@@ -70,6 +78,21 @@ Node:
 ```bash
 npm install
 ```
+
+## 新机器首次可用步骤
+
+```bash
+git clone git@github.com:mingleQ/fruugo-skills.git
+cd fruugo-skills
+pip install -r requirements.txt
+npm install
+python3 references/openclaw-deploy/scripts/install_openclaw_fruugo_prompt.py
+```
+
+完成后，小龙虾就可以直接执行 skill 仓库里的 workflow 脚本。第一次运行会自动创建：
+
+- `runtime/fruugo_product_links.sqlite3`
+- `runtime/output/...`
 
 ## 推荐给 Xiaolongxia 的触发语句
 

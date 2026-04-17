@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.pyc
+runtime/fruugo_product_links.sqlite3
+runtime/output/
